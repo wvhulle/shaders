@@ -13,7 +13,7 @@
                 vec4 win = texture2D(niri_tex, tc.st);
 
                 float scale = 14.0;
-                vec2 q = uv * scale;
+                vec2 q = uv * vec2(size_geo.x / size_geo.y, 1.0) * scale;
                 vec2 g = floor(q);
                 vec2 f = fract(q);
                 float min_d = 100.0;
@@ -28,7 +28,7 @@
                 }
                 float seed = vs_hash2(cell).x;
                 float shard_p = smoothstep(seed * 0.5, seed * 0.5 + 0.5, p);
-                float reveal = smoothstep(0.0, 0.5, shard_p);
+                float reveal = smoothstep(0.0, 1.0, shard_p);
 
                 float inside = step(0.0, uv.x) * step(uv.x, 1.0) * step(0.0, uv.y) * step(uv.y, 1.0);
                 return win * mix(p, reveal, inside);
